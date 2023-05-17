@@ -1,17 +1,17 @@
 import { Card, Description, Title } from './style'
 
 type Props = {
-  name: string
-  description: string
-  img: string
+  foto: string
+  nome: string
+  descricao: string
 }
 
-const OptionRestaurantItem = ({ name, description, img }: Props) => {
+const OptionRestaurantItem = ({ foto, nome, descricao }: Props) => {
   return (
     <Card>
-      <img src={img} alt={name} />
-      <Title>{name}</Title>
-      <Description>{description}</Description>
+      <img src={foto} alt={nome} />
+      <Title>{nome}</Title>
+      <Description>{descricao}</Description>
       <a href="#">Adicionar ao carrinho</a>
     </Card>
   )

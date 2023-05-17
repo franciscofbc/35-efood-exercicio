@@ -16,6 +16,11 @@ export const Card = styled.div`
     font-size: 14px;
     font-weight: bold;
   }
+
+  > img {
+    height: 168px;
+    width: 100%;
+  }
 `
 
 export const Title = styled.h2`

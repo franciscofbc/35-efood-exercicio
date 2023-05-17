@@ -1,20 +1,34 @@
-import OptionFood from '../../models/OptionFood'
+// import OptionFood from '../../models/OptionFood'
 import OptionRestaurantItem from '../OptionRestaurantItem'
 import { Container } from './styles'
 
+// type Props = {
+//   options: OptionFood[]
+// }
+
 type Props = {
-  options: OptionFood[]
+  cardapio: [
+    {
+      foto: string
+      // preco: number
+      id: number
+      nome: string
+      descricao: string
+      // porcao: string
+    }
+  ]
 }
 
-const OptionRestaurantList = ({ options }: Props) => {
+// const OptionRestaurantList = ({ options }: Props) => {
+const OptionRestaurantList = ({ cardapio }: Props) => {
   return (
     <Container>
-      {options.map((option) => (
+      {cardapio.map((option) => (
         <OptionRestaurantItem
           key={option.id}
-          img={option.img}
-          name={option.name}
-          description={option.description}
+          foto={option.foto}
+          nome={option.nome}
+          descricao={option.descricao}
         />
       ))}
     </Container>

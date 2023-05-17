@@ -6,8 +6,12 @@ export const Card = styled.div`
   margin-bottom: 48px;
   position: relative;
 
-  img {
+  > img {
     display: block;
+    height: 216px;
+    // width: 472px;
+    width: 100%;
+    object-fit: cover;
   }
 `
 export const CardDescription = styled.div`
@@ -32,7 +36,6 @@ export const Title = styled.h2`
   margin-right: 8px;
   font-weight: bold;
 `
-
 export const Description = styled.p`
   font-size: 14px;
   line-height: 24px;
@@ -46,7 +49,6 @@ export const More = styled(Link)`
   font-weight: bold;
   font-size: 14px;
 `
-
 export const Tags = styled.div`
   position: absolute;
   top: 16px;
