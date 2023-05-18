@@ -40,8 +40,8 @@ const RestaurantItem = ({
   id
 }: Props) => {
   const getDescricao = (descricao: string) => {
-    if (descricao.length > 248) {
-      return descricao.slice(0, 248) + '...'
+    if (descricao.length > 220) {
+      return descricao.slice(0, 220) + ' (...)'
     }
     return descricao
   }
@@ -61,7 +61,7 @@ const RestaurantItem = ({
             <img src={star} alt="Estrela" />
           </Star>
         </Header>
-        <Description>{descricao}</Description>
+        <Description>{getDescricao(descricao)}</Description>
         <More to={`/restaurante/${id}`}>Saiba mais</More>
       </CardDescription>
     </Card>

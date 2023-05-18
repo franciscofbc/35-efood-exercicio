@@ -10,11 +10,11 @@ type Props = {
   cardapio: [
     {
       foto: string
-      // preco: number
+      preco: number
       id: number
       nome: string
       descricao: string
-      // porcao: string
+      porcao: string
     }
   ]
 }
@@ -25,10 +25,12 @@ const OptionRestaurantList = ({ cardapio }: Props) => {
     <Container>
       {cardapio.map((option) => (
         <OptionRestaurantItem
-          key={option.id}
           foto={option.foto}
+          preco={option.preco}
+          key={option.id}
           nome={option.nome}
           descricao={option.descricao}
+          porcao={option.porcao}
         />
       ))}
     </Container>

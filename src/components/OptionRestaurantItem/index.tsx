@@ -12,11 +12,33 @@ import close from '../../assets/images/close.png'
 
 type Props = {
   foto: string
+  preco: number
   nome: string
   descricao: string
+  porcao: string
 }
 
-const OptionRestaurantItem = ({ foto, nome, descricao }: Props) => {
+const getDescricao = (descricao: string) => {
+  if (descricao.length > 150) {
+    return descricao.slice(0, 150) + ' (...)'
+  }
+  return descricao
+}
+
+export const formataPreco = (preco = 0) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(preco)
+}
+
+const OptionRestaurantItem = ({
+  foto,
+  preco,
+  nome,
+  descricao,
+  porcao
+}: Props) => {
   const [isVisible, setIsVisible] = useState(false)
 
   return (
@@ -24,7 +46,7 @@ const OptionRestaurantItem = ({ foto, nome, descricao }: Props) => {
       <Card>
         <img src={foto} alt={nome} />
         <Title>{nome}</Title>
-        <Description>{descricao}</Description>
+        <Description>{getDescricao(descricao)}</Description>
         <a onClick={() => setIsVisible(true)}>Mais detalhes</a>
       </Card>
       {isVisible && (
@@ -34,7 +56,8 @@ const OptionRestaurantItem = ({ foto, nome, descricao }: Props) => {
             <div>
               <h2>{nome}</h2>
               <p>{descricao}</p>
-              <a href="">Adcionar ao carrinho</a>
+              <p>{`Serve: de ${porcao}`}</p>
+              <a>{`Adicionar ao carrinho - ${formataPreco(preco)}`}</a>
             </div>
             <ImgFechar
               src={close}
@@ -42,6 +65,7 @@ const OptionRestaurantItem = ({ foto, nome, descricao }: Props) => {
               onClick={() => setIsVisible(false)}
             />
           </ModalContent>
+          <div className="overlay" onClick={() => setIsVisible(false)}></div>
         </Modal>
       )}
     </>

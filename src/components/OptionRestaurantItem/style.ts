@@ -43,13 +43,20 @@ export const Description = styled.p`
 export const Modal = styled.div`
   position: fixed;
   top: 0;
-  // left: 0;
-  // right: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  z-index: 1;
+
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 `
 
 export const ModalContent = styled.div`
@@ -58,7 +65,7 @@ export const ModalContent = styled.div`
   padding: 32px;
   background-color: ${colors.pink};
   position: relative; //por causa da ImgFechar
-  width: 75%;
+  z-index: 1;
 
   h2 {
     color: ${colors.pinkFooter};
