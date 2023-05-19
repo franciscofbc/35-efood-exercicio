@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootReducer } from '../../store'
+import { open } from '../../store/reducers/cart'
+
 import {
   Card,
   Description,
@@ -8,7 +12,9 @@ import {
   ModalContent,
   Title
 } from './style'
+
 import close from '../../assets/images/close.png'
+import Cart from '../Cart'
 
 type Props = {
   foto: string
@@ -40,6 +46,8 @@ const OptionRestaurantItem = ({
   porcao
 }: Props) => {
   const [isVisible, setIsVisible] = useState(false)
+  const { isOpen } = useSelector((state: RootReducer) => state.cart)
+  const dispatch = useDispatch()
 
   return (
     <>
@@ -57,7 +65,12 @@ const OptionRestaurantItem = ({
               <h2>{nome}</h2>
               <p>{descricao}</p>
               <p>{`Serve: de ${porcao}`}</p>
-              <a>{`Adicionar ao carrinho - ${formataPreco(preco)}`}</a>
+              <a
+                onClick={() => {
+                  setIsVisible(false)
+                  dispatch(open())
+                }}
+              >{`Adicionar ao carrinho - ${formataPreco(preco)}`}</a>
             </div>
             <ImgFechar
               src={close}
