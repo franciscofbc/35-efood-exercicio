@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import OptionRestaurantList from '../../components/OptionRestaurantList'
 // import OptionFood from '../../models/OptionFood'
 // import pizza from '../../assets/images/pizza.png'
 import HeaderRestaurant from '../../components/HeaderRestaurant'
 import { Restaurant } from '../Restaurants'
+import { useGetRestaurantQuery } from '../../services/api'
 
 // const optionList: OptionFood[] = [
 //   {
@@ -52,14 +53,16 @@ import { Restaurant } from '../Restaurants'
 // ]
 
 const OptionRestaurants = () => {
-  const [restaurant, setRestaurant] = useState<Restaurant>()
+  // const [restaurant, setRestaurant] = useState<Restaurant>()
   const params = useParams()
 
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${params.id}`)
-      .then((res) => res.json())
-      .then((data) => setRestaurant(data))
-  }, [])
+  // useEffect(() => {
+  //   fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${params.id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setRestaurant(data))
+  // }, [])
+
+  const { data: restaurant } = useGetRestaurantQuery(params.id!)
 
   return (
     <>

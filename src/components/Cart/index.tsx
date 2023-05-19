@@ -16,7 +16,7 @@ const Cart = () => {
       <SideBar>
         {items.map((item) => (
           <Item key={item.id}>
-            <img className="imgItem" src={item.foto} alt="" />
+            <img className="imgItem" src={item.foto} alt={item.nome} />
             <div>
               <h3>{item.nome}</h3>
               <p>{formataPreco(item.preco)}</p>

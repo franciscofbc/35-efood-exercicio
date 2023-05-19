@@ -4,6 +4,7 @@ import RestaurantsList from '../../components/RestaurantsList'
 // import restaurant2 from '../../assets/images/restaurante2.png'
 import Header from '../../components/Header'
 import { useEffect, useState } from 'react'
+import { useGetRestaurantsQuery } from '../../services/api'
 
 // const restaurantList: Restaurant[] = [
 //   {
@@ -89,20 +90,26 @@ export type Restaurant = {
 }
 
 const Restaurants = () => {
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([])
+  // const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes').then(
-      (res) => res.json().then((data) => setRestaurants(data))
-    )
-  }, [])
+  // useEffect(() => {
+  //   fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes').then(
+  //     (res) => res.json().then((data) => setRestaurants(data))
+  //   )
+  // }, [])
+
+  const { data: restaurants } = useGetRestaurantsQuery()
+
+  // if (restaurants) {
+  //   return <RestaurantsList restaurants={restaurants} />
+  // }
 
   return (
     <>
       <Header />
       <div className="container">
         {/* <RestaurantsList restaurants={restaurantList} /> */}
-        <RestaurantsList restaurants={restaurants} />
+        {restaurants && <RestaurantsList restaurants={restaurants} />}
       </div>
     </>
   )
