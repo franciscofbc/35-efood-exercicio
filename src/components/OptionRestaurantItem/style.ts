@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Card = styled.div`
   background-color: ${colors.pink};
@@ -66,6 +66,10 @@ export const ModalContent = styled.div`
   background-color: ${colors.pink};
   position: relative; //por causa da ImgFechar
   z-index: 1;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    width: 80%;
+  }
 
   h2 {
     color: ${colors.pinkFooter};

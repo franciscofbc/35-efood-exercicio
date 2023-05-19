@@ -7,8 +7,12 @@ export const colors = {
   pinkFooter: '#FFEBD9'
 }
 
-export const GlobalStyle = createGlobalStyle`
+export const breakpoints = {
+  desktop: '1024px',
+  tablet: '768px'
+}
 
+export const GlobalStyle = createGlobalStyle`
 *{
   margin:0;
   padding:0;
@@ -21,7 +25,7 @@ body{
 }
 
 .container{
-  max-width:1024px;
+  max-width:${breakpoints.desktop};
   width:100%;
   margin:0 auto;
 }

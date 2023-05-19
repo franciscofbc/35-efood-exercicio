@@ -22,7 +22,7 @@ type Props = {
 // const OptionRestaurantList = ({ options }: Props) => {
 const OptionRestaurantList = ({ cardapio }: Props) => {
   return (
-    <Container>
+    <Container className="container">
       {cardapio.map((option) => (
         <OptionRestaurantItem
           key={option.id}
