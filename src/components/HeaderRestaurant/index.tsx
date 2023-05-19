@@ -2,7 +2,10 @@ import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.png'
 import header from '../../assets/images/header.png'
 import { Image, ImageRestaurant } from './styles'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootReducer } from '../../store'
 // import restaurant2 from '../../assets/images/restaurante2.png'
+import { open } from '../../store/reducers/cart'
 
 type Props = {
   capa: string
@@ -11,6 +14,9 @@ type Props = {
 }
 
 const HeaderRestaurant = ({ capa, titulo, tipo }: Props) => {
+  const { items } = useSelector((state: RootReducer) => state.cart)
+  const dispatch = useDispatch()
+
   return (
     <>
       <Image style={{ backgroundImage: `url(${header})` }}>
@@ -19,7 +25,9 @@ const HeaderRestaurant = ({ capa, titulo, tipo }: Props) => {
           <Link to="/">
             <img src={logo} alt="Efood" />
           </Link>
-          <p>0 produto(s) no carrinho</p>
+          <a onClick={() => dispatch(open())}>
+            {items.length} produto(s) no carrinho
+          </a>
         </div>
       </Image>
       <ImageRestaurant style={{ backgroundImage: `url(${capa})` }}>

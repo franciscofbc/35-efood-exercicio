@@ -15,6 +15,13 @@ export const Image = styled.div`
       font-weight: 900;
       color: ${colors.pink};
     }
+
+    a {
+      font-size: 18px;
+      font-weight: 900;
+      color: ${colors.pink};
+      cursor: pointer;
+    }
   }
 `
 export const ImageRestaurant = styled.div`

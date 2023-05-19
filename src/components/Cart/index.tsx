@@ -1,46 +1,37 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { close } from '../../store/reducers/cart'
+import { close, remove } from '../../store/reducers/cart'
 import { RootReducer } from '../../store'
 
 import { Container, Item, SideBar } from './styles'
 
-import pizza from '../../assets/images/pizza.png'
 import lixeira from '../../assets/images/lixeira.png'
+import { formataPreco } from '../OptionRestaurantItem'
 
 const Cart = () => {
-  const { isOpen } = useSelector((state: RootReducer) => state.cart)
+  const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const dispatch = useDispatch()
 
   return (
     <Container className={isOpen ? 'isOpen' : ''}>
       <SideBar>
-        <Item>
-          <img className="imgItem" src={pizza} alt="" />
-          <div>
-            <h3>pizza teste</h3>
-            <p>R$ 150,00</p>
-          </div>
-          <img className="imgLixeira" src={lixeira} alt="" />
-        </Item>
-        <Item>
-          <img className="imgItem" src={pizza} alt="" />
-          <div>
-            <h3>pizza teste</h3>
-            <p>R$ 150,00</p>
-          </div>
-          <img className="imgLixeira" src={lixeira} alt="" />
-        </Item>
-        <Item>
-          <img className="imgItem" src={pizza} alt="" />
-          <div>
-            <h3>pizza teste</h3>
-            <p>R$ 150,00</p>
-          </div>
-          <img className="imgLixeira" src={lixeira} alt="" />
-        </Item>
+        {items.map((item) => (
+          <Item key={item.id}>
+            <img className="imgItem" src={item.foto} alt="" />
+            <div>
+              <h3>{item.nome}</h3>
+              <p>{formataPreco(item.preco)}</p>
+            </div>
+            <img
+              className="imgLixeira"
+              src={lixeira}
+              alt=""
+              onClick={() => dispatch(remove(item.id))}
+            />
+          </Item>
+        ))}
         <div className="totalValue">
           <p>Valor total</p>
-          <p>R$ 182,70</p>
+          <p>{formataPreco(items.reduce((acc, cv) => acc + cv.preco, 0))}</p>
         </div>
         <button>Continuar com a entrega</button>
       </SideBar>

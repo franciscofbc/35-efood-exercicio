@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootReducer } from '../../store'
-import { open } from '../../store/reducers/cart'
+import { open, add } from '../../store/reducers/cart'
 
 import {
   Card,
@@ -14,11 +14,11 @@ import {
 } from './style'
 
 import close from '../../assets/images/close.png'
-import Cart from '../Cart'
 
 type Props = {
   foto: string
   preco: number
+  id: number
   nome: string
   descricao: string
   porcao: string
@@ -41,6 +41,7 @@ export const formataPreco = (preco = 0) => {
 const OptionRestaurantItem = ({
   foto,
   preco,
+  id,
   nome,
   descricao,
   porcao
@@ -69,6 +70,7 @@ const OptionRestaurantItem = ({
                 onClick={() => {
                   setIsVisible(false)
                   dispatch(open())
+                  dispatch(add({ foto, preco, id, nome, descricao, porcao }))
                 }}
               >{`Adicionar ao carrinho - ${formataPreco(preco)}`}</a>
             </div>

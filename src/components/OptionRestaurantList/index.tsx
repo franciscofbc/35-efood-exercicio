@@ -25,9 +25,10 @@ const OptionRestaurantList = ({ cardapio }: Props) => {
     <Container>
       {cardapio.map((option) => (
         <OptionRestaurantItem
+          key={option.id}
           foto={option.foto}
           preco={option.preco}
-          key={option.id}
+          id={option.id}
           nome={option.nome}
           descricao={option.descricao}
           porcao={option.porcao}
