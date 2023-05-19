@@ -8,7 +8,7 @@ export const Container = styled.div`
 
   @media (max-width: ${breakpoints.desktop}) {
     // grid-template-columns: 1fr;
-    width: 80%;
+    // width: 80%;
     // margin: 0 auto;
   }
 

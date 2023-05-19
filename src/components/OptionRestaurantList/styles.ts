@@ -8,7 +8,7 @@ export const Container = styled.div`
 
   @media (max-width: ${breakpoints.desktop}) {
     grid-template-columns: repeat(2, 1fr);
-    width: 80%;
+    // width: 80%;
   }
 
   @media (max-width: ${breakpoints.tablet}) {

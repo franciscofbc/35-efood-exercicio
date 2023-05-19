@@ -68,7 +68,11 @@ export const ModalContent = styled.div`
   z-index: 1;
 
   @media (max-width: ${breakpoints.desktop}) {
-    width: 80%;
+    // width: 80%;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    display: block;
   }
 
   h2 {
@@ -109,4 +113,9 @@ export const ImgFechar = styled.img`
   position: absolute;
   top: 8px;
   right: 8px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    // top: 16px;
+    // right: 16px;
+  }
 `
