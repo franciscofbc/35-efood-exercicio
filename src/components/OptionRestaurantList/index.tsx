@@ -1,4 +1,5 @@
 // import OptionFood from '../../models/OptionFood'
+// import { Cardapio } from '../../pages/OptionRestaurants'
 import OptionRestaurantItem from '../OptionRestaurantItem'
 import { Container } from './styles'
 
@@ -21,6 +22,7 @@ type Props = {
 
 // const OptionRestaurantList = ({ options }: Props) => {
 const OptionRestaurantList = ({ cardapio }: Props) => {
+  // const OptionRestaurantList = (cardapio: Cardapio[]) => {
   return (
     <Container className="container">
       {cardapio.map((option) => (

@@ -4,7 +4,7 @@ import OptionRestaurantList from '../../components/OptionRestaurantList'
 // import OptionFood from '../../models/OptionFood'
 // import pizza from '../../assets/images/pizza.png'
 import HeaderRestaurant from '../../components/HeaderRestaurant'
-import { Restaurant } from '../Restaurants'
+// import { Restaurant } from '../Restaurants'
 import { useGetRestaurantQuery } from '../../services/api'
 
 // const optionList: OptionFood[] = [
@@ -51,6 +51,15 @@ import { useGetRestaurantQuery } from '../../services/api'
 //     img: pizza
 //   }
 // ]
+
+// export type Cardapio = {
+//   foto: string
+//   preco: number
+//   id: number
+//   nome: string
+//   descricao: string
+//   porcao: string
+// }
 
 const OptionRestaurants = () => {
   // const [restaurant, setRestaurant] = useState<Restaurant>()
