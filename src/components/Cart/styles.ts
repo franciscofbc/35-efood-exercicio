@@ -39,15 +39,19 @@ export const SideBar = styled.aside`
     display: flex;
     justify-content: space-between;
     margin: 24px 8px 16px 8px;
-
-    p {
-      color: ${colors.pinkFooter};
-      font-weight: 700;
-      font-size: 14px;
-    }
   }
 
-  button {
+  p {
+    color: ${colors.pinkFooter};
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .emptyCart {
+    text-align: center;
+  }
+
+  .continueDelivery {
     background-color: ${colors.pinkFooter};
     color: ${colors.pink};
     border: none;
@@ -91,5 +95,69 @@ export const Item = styled.div`
     bottom: 8px;
     right: 8px;
     cursor: pointer;
+  }
+`
+export const Delivery = styled.div`
+  padding: 0 8px;
+
+  h3 {
+    margin: 32px 0 16px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: ${colors.pinkFooter};
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      // display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: ${colors.pinkFooter};
+    }
+
+    input {
+      // width: 100%;
+      height: 32px;
+      backgroud-color: ${colors.pinkFooter};
+      margin-bottom: 8px;
+      padding: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: ${colors.inputColor};
+    }
+
+    .sameLine {
+      display: flex;
+
+      div {
+        > label {
+          display: block;
+        }
+
+        > input {
+          width: 155px;
+          margin-right: 34px;
+        }
+      }
+    }
+
+    .btn {
+      // width: 100%;
+      height: 24px;
+      background-color: ${colors.pinkFooter};
+      color: ${colors.pink};
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+
+    .continuePayment {
+      margin: 16px 0 8px 0;
+    }
   }
 `
