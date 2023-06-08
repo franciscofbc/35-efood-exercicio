@@ -39,16 +39,19 @@ export const SideBar = styled.aside`
     display: flex;
     justify-content: space-between;
     margin: 24px 8px 16px 8px;
-  }
 
-  p {
-    color: ${colors.pinkFooter};
-    font-weight: 700;
-    font-size: 14px;
+    p {
+      color: ${colors.pinkFooter};
+      font-weight: 700;
+      font-size: 14px;
+    }
   }
 
   .emptyCart {
     text-align: center;
+    color: ${colors.pinkFooter};
+    font-weight: 700;
+    font-size: 14px;
   }
 
   .continueDelivery {
@@ -58,7 +61,6 @@ export const SideBar = styled.aside`
     padding: 4px;
     font-weight: 700;
     font-size: 14px;
-    // width: 100%;
     margin: 0 8px 0 8px;
     cursor: pointer;
   }
@@ -77,7 +79,7 @@ export const Item = styled.div`
     margin-right: 8px;
   }
 
-  h3 {
+  .titleItem {
     margin-bottom: 16px;
     font-size: 18px;
     font-weight: 900;
@@ -100,7 +102,7 @@ export const Item = styled.div`
 export const Delivery = styled.div`
   padding: 0 8px;
 
-  h3 {
+  > h3 {
     margin: 32px 0 16px 0;
     font-size: 16px;
     font-weight: 700;
@@ -108,11 +110,8 @@ export const Delivery = styled.div`
   }
 
   form {
-    display: flex;
-    flex-direction: column;
-
     label {
-      // display: block;
+      display: block;
       margin-bottom: 8px;
       font-size: 14px;
       font-weight: 700;
@@ -120,7 +119,7 @@ export const Delivery = styled.div`
     }
 
     input {
-      // width: 100%;
+      width: 100%;
       height: 32px;
       backgroud-color: ${colors.pinkFooter};
       margin-bottom: 8px;
@@ -133,31 +132,53 @@ export const Delivery = styled.div`
     .sameLine {
       display: flex;
 
-      div {
-        > label {
-          display: block;
-        }
-
-        > input {
-          width: 155px;
-          margin-right: 34px;
-        }
+      #zipCode {
+        margin-right: 34px;
       }
-    }
 
-    .btn {
-      // width: 100%;
-      height: 24px;
-      background-color: ${colors.pinkFooter};
-      color: ${colors.pink};
-      font-size: 14px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
+      #number,
+      #zipCode {
+        width: 155px;
+      }
+
+      #cardNumber {
+        width: 228px;
+        margin-right: 30px;
+      }
+
+      #expiresMonth {
+        width: 155px;
+        margin-right: 34px;
+      }
     }
 
     .continuePayment {
       margin: 16px 0 8px 0;
     }
+  }
+`
+
+export const Btn = styled.button`
+  display: block;
+  width: 100%;
+  height: 24px;
+  background-color: ${colors.pinkFooter};
+  color: ${colors.pink};
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+`
+export const OrderMessage = styled.div`
+  padding: 8px;
+  color: ${colors.pinkFooter};
+
+  > h3 {
+    margin-bottom: 16px;
+  }
+
+  > p {
+    line-height: 22px;
+    margin-bottom: 28px;
   }
 `
