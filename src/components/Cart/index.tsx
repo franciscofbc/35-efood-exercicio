@@ -17,6 +17,7 @@ const Cart = () => {
   const [checkoutDelivery, setCheckoutDelivery] = useState(false)
   const [checkoutPayment, setCheckoutPayment] = useState(false)
   const [checkoutOrder, setCheckoutOrder] = useState(false)
+  // const [flag, setFlag] = useState('')
 
   const form = useFormik({
     initialValues: {
@@ -25,20 +26,67 @@ const Cart = () => {
       city: '',
       zipCode: '',
       number: '',
-      complement: ''
+      complement: '',
+      cardName: '',
+      cardNumber: '',
+      cardCode: '',
+      expiresMonth: '',
+      expiresYear: ''
     },
+
     validationSchema: yup.object({
       receiver: yup.string().required(),
       description: yup.string().required(),
       city: yup.string().required(),
       zipCode: yup.string().required(),
-      number: yup.string().required()
-      // complement: yup.string().required()
+      number: yup.string().required(),
+      complement: yup.string(),
+
+      cardName: yup
+        .string()
+        .when((values, schema) =>
+          checkoutPayment ? schema.required() : schema
+        ),
+      cardNumber: yup
+        .string()
+        .when((values, schema) =>
+          checkoutPayment ? schema.required() : schema
+        ),
+      cardCode: yup
+        .string()
+        .when((values, schema) =>
+          checkoutPayment ? schema.required() : schema
+        ),
+      expiresMonth: yup
+        .string()
+        .when((values, schema) =>
+          checkoutPayment ? schema.required() : schema
+        ),
+      expiresYear: yup
+        .string()
+        .when((values, schema) =>
+          checkoutPayment ? schema.required() : schema
+        )
     }),
+
     onSubmit: (values) => {
       console.log(values)
     }
   })
+
+  const hasAnError = (fieldName: string) => {
+    const touched = fieldName in form.touched
+    const error = fieldName in form.errors
+    return error && touched
+  }
+
+  const hasAnErrorMessage = (fieldName: string, message?: string) => {
+    // const touched = fieldName in form.touched
+    const error = fieldName in form.errors
+    // if (error && touched) return message
+    if (error) return message
+    return ''
+  }
 
   const delivery = () => {
     return (
@@ -56,58 +104,81 @@ const Cart = () => {
                 name="receiver"
                 value={form.values.receiver}
                 onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                autoFocus
+                className={hasAnError('receiver') ? 'hasAnError' : ''}
               />
-              <label htmlFor="">Endereço</label>
+              {/* <small className="errorMessage">
+                {hasAnErrorMessage('receiver', form.errors.receiver)}
+              </small> */}
+              <label htmlFor="description">Endereço</label>
               <input
                 type="text"
                 id="description"
                 name="description"
                 value={form.values.description}
                 onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                className={hasAnError('description') ? 'hasAnError' : ''}
               />
-              <label>Cidade</label>
+              <label htmlFor="city">Cidade</label>
               <input
                 type="text"
                 id="city"
                 name="city"
                 value={form.values.city}
                 onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                className={hasAnError('city') ? 'hasAnError' : ''}
               />
               <div className="sameLine">
                 <div>
-                  <label>CEP</label>
+                  <label htmlFor="zipCode">CEP</label>
                   <input
                     type="text"
                     id="zipCode"
                     name="zipCode"
                     value={form.values.zipCode}
                     onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                    className={hasAnError('zipCode') ? 'hasAnError' : ''}
                   />
                 </div>
                 <div>
-                  <label>Número</label>
+                  <label htmlFor="number">Número</label>
                   <input
                     type="text"
                     id="number"
                     name="number"
                     value={form.values.number}
                     onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                    className={hasAnError('number') ? 'hasAnError' : ''}
                   />
+                  {/* <small className={flag}>
+                    {hasAnErrorMessage('number', form.errors.number)}
+                  </small> */}
                 </div>
               </div>
-              <label>Complemente (Opcional)</label>
+              <label htmlFor="complement">Complemente (Opcional)</label>
               <input
                 type="text"
                 id="complement"
                 name="complement"
                 value={form.values.complement}
                 onChange={form.handleChange}
+                onBlur={form.handleBlur}
               />
               <Btn
                 className="continuePayment"
                 type="button"
                 onClick={() => {
-                  setCheckoutPayment(true)
+                  form.isValid && setCheckoutPayment(true)
+                  // ? setCheckoutPayment(true)
+                  // : setFlag('errorMessage')
+                  console.log(form)
+                  console.log(form.touched)
+                  console.log(form.errors)
                 }}
               >
                 Continuar com o pagamento
@@ -123,7 +194,7 @@ const Cart = () => {
                 type="text"
                 id="cardName"
                 name="cardName"
-                value={form.values.receiver}
+                value={form.values.cardName}
                 onChange={form.handleChange}
               />
               <div className="sameLine">
@@ -133,7 +204,7 @@ const Cart = () => {
                     type="text"
                     id="cardNumber"
                     name="cardNumber"
-                    value={form.values.receiver}
+                    value={form.values.cardNumber}
                     onChange={form.handleChange}
                   />
                 </div>
@@ -143,7 +214,7 @@ const Cart = () => {
                     type="text"
                     id="cardCode"
                     name="cardCode"
-                    value={form.values.receiver}
+                    value={form.values.cardCode}
                     onChange={form.handleChange}
                   />
                 </div>
@@ -155,7 +226,7 @@ const Cart = () => {
                     type="text"
                     id="expiresMonth"
                     name="expiresMonth"
-                    value={form.values.receiver}
+                    value={form.values.expiresMonth}
                     onChange={form.handleChange}
                   />
                 </div>
@@ -165,7 +236,7 @@ const Cart = () => {
                     type="text"
                     id="expiresYear"
                     name="expiresYear"
-                    value={form.values.receiver}
+                    value={form.values.expiresYear}
                     onChange={form.handleChange}
                   />
                 </div>
@@ -173,11 +244,18 @@ const Cart = () => {
               <Btn
                 className="continuePayment"
                 type="submit"
-                onClick={() => setCheckoutOrder(true)}
+                onClick={() => {
+                  // setCheckoutOrder(true)
+                }}
               >
                 Finalizar pagamento
               </Btn>
-              <Btn type="button" onClick={() => setCheckoutPayment(false)}>
+              <Btn
+                type="button"
+                onClick={() => {
+                  setCheckoutPayment(false)
+                }}
+              >
                 Voltar para a edição de endereço
               </Btn>
             </>

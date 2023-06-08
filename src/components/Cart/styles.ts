@@ -110,6 +110,22 @@ export const Delivery = styled.div`
   }
 
   form {
+    .hasAnError {
+      border: red solid 2px;
+    }
+
+    // .errorMessage {
+    //   display: block;
+    //   margin-bottom: 8px;
+    //   color: ${colors.pinkFooter};
+    // }
+
+    // .flagMessage {
+    //   display: block;
+    //   margin-bottom: 8px;
+    //   color: ${colors.pink};
+    // }
+
     label {
       display: block;
       margin-bottom: 8px;
