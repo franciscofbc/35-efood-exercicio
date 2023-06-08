@@ -2,10 +2,12 @@ import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as yup from 'yup'
+import InputMask from 'react-input-mask'
 
 import { close, remove } from '../../store/reducers/cart'
 import { formataPreco } from '../OptionRestaurantItem'
 import { RootReducer } from '../../store'
+import { usePurchaseMutation } from '../../services/api'
 
 import { Btn, Container, Delivery, Item, OrderMessage, SideBar } from './styles'
 
@@ -18,20 +20,21 @@ const Cart = () => {
   const [checkoutPayment, setCheckoutPayment] = useState(false)
   const [checkoutOrder, setCheckoutOrder] = useState(false)
   // const [flag, setFlag] = useState('')
+  const [purchase, { data, isSuccess }] = usePurchaseMutation()
 
   const form = useFormik({
     initialValues: {
-      receiver: '',
-      description: '',
-      city: '',
-      zipCode: '',
-      number: '',
-      complement: '',
-      cardName: '',
-      cardNumber: '',
-      cardCode: '',
-      expiresMonth: '',
-      expiresYear: ''
+      receiver: 'FRANCISCO',
+      description: 'R BARAO DO RIO BRANCO',
+      city: 'IJUI',
+      zipCode: '98700000',
+      number: '123',
+      complement: 'COMPLEMENT',
+      cardName: 'FRANCISCO B CRUZ',
+      cardNumber: '9987785478547854',
+      cardCode: '456',
+      expiresMonth: '87',
+      expiresYear: '98'
     },
 
     validationSchema: yup.object({
@@ -71,6 +74,32 @@ const Cart = () => {
 
     onSubmit: (values) => {
       console.log(values)
+
+      purchase({
+        products: [{ id: 1, price: 2 }],
+
+        delivery: {
+          receiver: values.receiver,
+          address: {
+            description: values.description,
+            city: values.city,
+            zipCode: values.zipCode,
+            number: Number(values.number),
+            complement: values.complement
+          }
+        },
+        payment: {
+          card: {
+            name: values.cardName,
+            number: values.cardNumber,
+            code: Number(values.cardCode),
+            expires: {
+              month: Number(values.expiresMonth),
+              year: Number(values.expiresYear)
+            }
+          }
+        }
+      })
     }
   })
 
@@ -78,6 +107,7 @@ const Cart = () => {
     const touched = fieldName in form.touched
     const error = fieldName in form.errors
     return error && touched
+    // return error
   }
 
   const hasAnErrorMessage = (fieldName: string, message?: string) => {
@@ -92,20 +122,24 @@ const Cart = () => {
     return (
       <>
         <h3>
-          {!checkoutPayment ? 'Entrega' : 'Pagamento - Valor a pagar R$ 190,90'}
+          {!checkoutPayment
+            ? 'Entrega'
+            : `Pagamento - Valor a pagar ${formataPreco(
+                items.reduce((acc, cv) => acc + cv.preco, 0)
+              )}`}
         </h3>
         <form onSubmit={form.handleSubmit}>
           {!checkoutPayment ? (
             <>
               <label htmlFor="receiver">Quem irá receber</label>
               <input
+                autoFocus
                 type="text"
                 id="receiver"
                 name="receiver"
                 value={form.values.receiver}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
-                autoFocus
                 className={hasAnError('receiver') ? 'hasAnError' : ''}
               />
               {/* <small className="errorMessage">
@@ -134,7 +168,7 @@ const Cart = () => {
               <div className="sameLine">
                 <div>
                   <label htmlFor="zipCode">CEP</label>
-                  <input
+                  <InputMask
                     type="text"
                     id="zipCode"
                     name="zipCode"
@@ -142,6 +176,7 @@ const Cart = () => {
                     onChange={form.handleChange}
                     onBlur={form.handleBlur}
                     className={hasAnError('zipCode') ? 'hasAnError' : ''}
+                    mask="99999-999"
                   />
                 </div>
                 <div>
@@ -176,9 +211,9 @@ const Cart = () => {
                   form.isValid && setCheckoutPayment(true)
                   // ? setCheckoutPayment(true)
                   // : setFlag('errorMessage')
-                  console.log(form)
-                  console.log(form.touched)
-                  console.log(form.errors)
+                  // console.log(form)
+                  // console.log(form.touched)
+                  // console.log(form.errors)
                 }}
               >
                 Continuar com o pagamento
@@ -191,53 +226,68 @@ const Cart = () => {
             <>
               <label htmlFor="cardName">Nome no cartão</label>
               <input
+                autoFocus
                 type="text"
                 id="cardName"
                 name="cardName"
                 value={form.values.cardName}
                 onChange={form.handleChange}
+                onBlur={form.handleBlur}
+                className={hasAnError('cardName') ? 'hasAnError' : ''}
               />
               <div className="sameLine">
                 <div>
                   <label htmlFor="cardNumber">Número do cartão</label>
-                  <input
+                  <InputMask
                     type="text"
                     id="cardNumber"
                     name="cardNumber"
                     value={form.values.cardNumber}
                     onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                    className={hasAnError('cardNumber') ? 'hasAnError' : ''}
+                    mask="9999 9999 9999 9999"
                   />
                 </div>
                 <div>
                   <label htmlFor="cardCode">CVV</label>
-                  <input
+                  <InputMask
                     type="text"
                     id="cardCode"
                     name="cardCode"
                     value={form.values.cardCode}
                     onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                    className={hasAnError('cardCode') ? 'hasAnError' : ''}
+                    mask="999"
                   />
                 </div>
               </div>
               <div className="sameLine">
                 <div>
                   <label htmlFor="expiresMonth">Mês de vencimento</label>
-                  <input
+                  <InputMask
                     type="text"
                     id="expiresMonth"
                     name="expiresMonth"
                     value={form.values.expiresMonth}
                     onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                    className={hasAnError('expiresMonth') ? 'hasAnError' : ''}
+                    mask="99"
                   />
                 </div>
                 <div>
                   <label htmlFor="expiresYear">Ano de vencimento</label>
-                  <input
+                  <InputMask
                     type="text"
                     id="expiresYear"
                     name="expiresYear"
                     value={form.values.expiresYear}
                     onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                    className={hasAnError('expiresYear') ? 'hasAnError' : ''}
+                    mask="99"
                   />
                 </div>
               </div>
@@ -245,7 +295,11 @@ const Cart = () => {
                 className="continuePayment"
                 type="submit"
                 onClick={() => {
+                  // form.handleSubmit
                   // setCheckoutOrder(true)
+                  // console.log(form)
+                  // console.log(form.touched)
+                  // console.log(form.errors)
                 }}
               >
                 Finalizar pagamento
@@ -306,7 +360,7 @@ const Cart = () => {
                   <Delivery>{delivery()}</Delivery>
                 ) : (
                   <OrderMessage>
-                    <h3>Pedido realizado - ORDER_ID</h3>
+                    <h3>Pedido realizado - {data?.orderId}</h3>
                     <p>
                       Estamos felizes em informar que seu pedido já está em
                       processo de preparação e, em breve, será entregue no
