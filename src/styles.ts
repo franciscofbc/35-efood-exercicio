@@ -23,6 +23,7 @@ export const GlobalStyle = createGlobalStyle`
 
 body{
   background-color:${colors.pinkBody};
+  // overflow-x: hidden;
 }
 
 .container{

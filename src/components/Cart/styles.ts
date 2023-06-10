@@ -25,7 +25,6 @@ export const Container = styled.div`
 
 export const SideBar = styled.aside`
   position: absolute;
-  // top: 0;
   right: 0;
   width: 360px;
   height: 100%;
@@ -114,18 +113,6 @@ export const Delivery = styled.div`
       border: red solid 2px;
     }
 
-    // .errorMessage {
-    //   display: block;
-    //   margin-bottom: 8px;
-    //   color: ${colors.pinkFooter};
-    // }
-
-    // .flagMessage {
-    //   display: block;
-    //   margin-bottom: 8px;
-    //   color: ${colors.pink};
-    // }
-
     label {
       display: block;
       margin-bottom: 8px;
@@ -149,17 +136,17 @@ export const Delivery = styled.div`
       display: flex;
 
       #zipCode {
-        margin-right: 34px;
-      }
-
-      #number,
-      #zipCode {
         width: 155px;
+        margin-right: 34px;
       }
 
       #cardNumber {
         width: 228px;
         margin-right: 30px;
+      }
+
+      #cardCode {
+        width: 87px;
       }
 
       #expiresMonth {

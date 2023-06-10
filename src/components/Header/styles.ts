@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Image = styled.div`
   height: 384px;
@@ -18,4 +18,8 @@ export const Title = styled.h1`
 export const Logo = styled.img`
   margin-top: 36px;
   margin-bottom: 136px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    margin-bottom: 50px;
+  }
 `

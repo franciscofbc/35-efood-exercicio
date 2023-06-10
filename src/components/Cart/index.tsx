@@ -125,13 +125,13 @@ const Cart = () => {
     return error
   }
 
-  const hasAnErrorMessage = (fieldName: string, message?: string) => {
-    // const touched = fieldName in form.touched
-    const error = fieldName in form.errors
-    // if (error && touched) return message
-    if (error) return message
-    return ''
-  }
+  // const hasAnErrorMessage = (fieldName: string, message?: string) => {
+  //   // const touched = fieldName in form.touched
+  //   const error = fieldName in form.errors
+  //   // if (error && touched) return message
+  //   if (error) return message
+  //   return ''
+  // }
 
   const delivery = () => {
     return (
@@ -369,7 +369,6 @@ const Cart = () => {
             {items.length !== 0 ? (
               <>
                 {!checkout.delivery ? (
-                  // {!checkoutDelivery ? (
                   <>
                     {items.map((item) => (
                       <Item key={item.id}>
