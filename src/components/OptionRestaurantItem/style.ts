@@ -6,16 +6,23 @@ export const Card = styled.div`
   padding: 8px;
   margin-bottom: 32px;
 
+  position: relative;
+
   a {
     color: ${colors.pink};
     background-color: ${colors.pinkFooter};
     text-decoration: none;
-    display: block;
+    // display: block;
     text-align: center;
     padding: 4px;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
   }
 
   > img {
@@ -37,7 +44,8 @@ export const Description = styled.p`
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
-  margin-bottom: 8px;
+  // margin-bottom: 8px;
+  margin-bottom: 32px;
 `
 
 export const Modal = styled.div`

@@ -20,13 +20,6 @@ const RestaurantItem = ({
   capa,
   id
 }: Props) => {
-  // const getDescricao = (descricao: string) => {
-  //   if (descricao.length > 220) {
-  //     return descricao.slice(0, 220) + ' (...)'
-  //   }
-  //   return descricao
-  // }
-
   return (
     <S.Card>
       <img src={capa} alt={titulo} />
@@ -42,7 +35,6 @@ const RestaurantItem = ({
             <img src={star} alt="Estrela" />
           </S.Star>
         </S.Header>
-        {/* <S.Description>{getDescricao(descricao)}</S.Description> */}
         <S.Description>{descricao}</S.Description>
         <S.More to={`/restaurante/${id}`}>Saiba mais</S.More>
       </S.CardDescription>

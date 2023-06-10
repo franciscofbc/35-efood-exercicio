@@ -5,9 +5,13 @@ export const parseToBrl = (preco = 0) => {
   }).format(preco)
 }
 
-const getDescricao = (descricao: string) => {
+export const getDescricao = (descricao: string) => {
   if (descricao.length > 150) {
     return descricao.slice(0, 150) + ' (...)'
   }
   return descricao
+}
+
+export const getTotalPrice = (items: Cardapio[]) => {
+  return items.reduce((acc, cv) => acc + cv.preco, 0)
 }

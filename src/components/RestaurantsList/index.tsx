@@ -1,6 +1,5 @@
 import { Container } from './styles'
 import RestaurantItem from '../RestaurantItem'
-import { Restaurant } from '../../pages/Restaurants'
 
 type Props = {
   restaurants: Restaurant[]

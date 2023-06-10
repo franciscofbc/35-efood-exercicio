@@ -7,7 +7,7 @@ import InputMask from 'react-input-mask'
 import { close, remove, clear } from '../../store/reducers/cart'
 import { RootReducer } from '../../store'
 import { usePurchaseMutation } from '../../services/api'
-import { parseToBrl } from '../../utils'
+import { getTotalPrice, parseToBrl } from '../../utils'
 
 import { Btn, Container, Delivery, Item, OrderMessage, SideBar } from './styles'
 
@@ -16,9 +16,11 @@ import lixeira from '../../assets/images/lixeira.png'
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const dispatch = useDispatch()
-  const [checkoutDelivery, setCheckoutDelivery] = useState(false)
-  const [checkoutPayment, setCheckoutPayment] = useState(false)
-  const [checkoutOrder, setCheckoutOrder] = useState(false)
+  const [checkout, setCheckout] = useState({
+    delivery: false,
+    payment: false,
+    order: false
+  })
   // const [flag, setFlag] = useState('')
   const [purchase, { data, isSuccess, isLoading, reset }] =
     usePurchaseMutation()
@@ -26,30 +28,30 @@ const Cart = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(clear())
-      // resetSidebar()
-      // reset()
     }
   }, [isSuccess, dispatch])
 
   const resetSidebar = () => {
-    setCheckoutDelivery(false)
-    setCheckoutPayment(false)
-    setCheckoutOrder(false)
+    setCheckout({
+      delivery: false,
+      payment: false,
+      order: false
+    })
   }
 
   const form = useFormik({
     initialValues: {
-      receiver: 'FRANCISCO',
-      description: 'R BARAO DO RIO BRANCO',
-      city: 'IJUI',
-      zipCode: '98700000',
-      number: '123',
-      complement: 'COMPLEMENT',
-      cardName: 'FRANCISCO B CRUZ',
-      cardNumber: '9987785478547854',
-      cardCode: '456',
-      expiresMonth: '87',
-      expiresYear: '98'
+      receiver: '',
+      description: '',
+      city: '',
+      zipCode: '',
+      number: '',
+      complement: '',
+      cardName: '',
+      cardNumber: '',
+      cardCode: '',
+      expiresMonth: '',
+      expiresYear: ''
     },
 
     validationSchema: yup.object({
@@ -63,35 +65,32 @@ const Cart = () => {
       cardName: yup
         .string()
         .when((values, schema) =>
-          checkoutPayment ? schema.required() : schema
+          checkout.payment ? schema.required() : schema
         ),
       cardNumber: yup
         .string()
         .when((values, schema) =>
-          checkoutPayment ? schema.required() : schema
+          checkout.payment ? schema.required() : schema
         ),
       cardCode: yup
         .string()
         .when((values, schema) =>
-          checkoutPayment ? schema.required() : schema
+          checkout.payment ? schema.required() : schema
         ),
       expiresMonth: yup
         .string()
         .when((values, schema) =>
-          checkoutPayment ? schema.required() : schema
+          checkout.payment ? schema.required() : schema
         ),
       expiresYear: yup
         .string()
         .when((values, schema) =>
-          checkoutPayment ? schema.required() : schema
+          checkout.payment ? schema.required() : schema
         )
     }),
 
     onSubmit: (values) => {
-      // console.log(values)
-
       purchase({
-        // products: [{ id: 1, price: 2 }],
         products: items.map((item) => ({ id: item.id, price: item.preco })),
 
         delivery: {
@@ -120,10 +119,10 @@ const Cart = () => {
   })
 
   const hasAnError = (fieldName: string) => {
-    const touched = fieldName in form.touched
+    // const touched = fieldName in form.touched
     const error = fieldName in form.errors
-    return error && touched
-    // return error
+    // return error && touched
+    return error
   }
 
   const hasAnErrorMessage = (fieldName: string, message?: string) => {
@@ -138,14 +137,12 @@ const Cart = () => {
     return (
       <>
         <h3>
-          {!checkoutPayment
+          {!checkout.payment
             ? 'Entrega'
-            : `Pagamento - Valor a pagar ${parseToBrl(
-                items.reduce((acc, cv) => acc + cv.preco, 0)
-              )}`}
+            : `Pagamento - Valor a pagar ${parseToBrl(getTotalPrice(items))}`}
         </h3>
         <form onSubmit={form.handleSubmit}>
-          {!checkoutPayment ? (
+          {!checkout.payment ? (
             <>
               <label htmlFor="receiver">Quem irá receber</label>
               <input
@@ -221,12 +218,17 @@ const Cart = () => {
                 className="continuePayment"
                 type="button"
                 onClick={() => {
-                  form.isValid && setCheckoutPayment(true)
+                  form.isValid && setCheckout({ ...checkout, payment: true })
                 }}
               >
                 Continuar com o pagamento
               </Btn>
-              <Btn type="button" onClick={() => setCheckoutDelivery(false)}>
+              <Btn
+                type="button"
+                onClick={() => {
+                  setCheckout({ ...checkout, delivery: false })
+                }}
+              >
                 Voltar para o carrinho
               </Btn>
             </>
@@ -234,7 +236,7 @@ const Cart = () => {
             <>
               <label htmlFor="cardName">Nome no cartão</label>
               <input
-                autoFocus
+                // autoFocus
                 type="text"
                 id="cardName"
                 name="cardName"
@@ -309,7 +311,7 @@ const Cart = () => {
               <Btn
                 type="button"
                 onClick={() => {
-                  setCheckoutPayment(false)
+                  setCheckout({ ...checkout, payment: false })
                 }}
               >
                 Voltar para a edição de endereço
@@ -345,7 +347,6 @@ const Cart = () => {
           type="button"
           onClick={() => {
             dispatch(close())
-            // dispatch(clear())
             resetSidebar()
             reset()
           }}
@@ -367,7 +368,8 @@ const Cart = () => {
           <>
             {items.length !== 0 ? (
               <>
-                {!checkoutDelivery ? (
+                {!checkout.delivery ? (
+                  // {!checkoutDelivery ? (
                   <>
                     {items.map((item) => (
                       <Item key={item.id}>
@@ -390,21 +392,19 @@ const Cart = () => {
                     ))}
                     <div className="totalValue">
                       <p>Valor total</p>
-                      <p>
-                        {parseToBrl(
-                          items.reduce((acc, cv) => acc + cv.preco, 0)
-                        )}
-                      </p>
+                      <p>{parseToBrl(getTotalPrice(items))}</p>
                     </div>
                     <button
                       className="continueDelivery"
-                      onClick={() => setCheckoutDelivery(true)}
+                      onClick={() => {
+                        setCheckout({ ...checkout, delivery: true })
+                      }}
                     >
                       Continuar com a entrega
                     </button>
                   </>
                 ) : (
-                  <>{!checkoutOrder && <Delivery>{delivery()}</Delivery>}</>
+                  <>{!checkout.order && <Delivery>{delivery()}</Delivery>}</>
                 )}
               </>
             ) : (
