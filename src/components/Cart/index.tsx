@@ -21,7 +21,6 @@ const Cart = () => {
     payment: false,
     order: false
   })
-  // const [flag, setFlag] = useState('')
   const [purchase, { data, isSuccess, isLoading, reset }] =
     usePurchaseMutation()
 
