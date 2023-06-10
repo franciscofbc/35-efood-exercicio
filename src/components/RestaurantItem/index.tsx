@@ -1,24 +1,5 @@
-import {
-  Card,
-  CardDescription,
-  Description,
-  Header,
-  More,
-  Star,
-  Tag,
-  Tags,
-  Title
-} from './styles'
+import * as S from './styles'
 import star from '../../assets/images/star-favorite.png'
-
-// type Props = {
-//   img: string
-//   name: string
-//   description: string
-//   grade: string
-//   type: string
-//   highlight: boolean
-// }
 
 type Props = {
   titulo: string
@@ -39,32 +20,33 @@ const RestaurantItem = ({
   capa,
   id
 }: Props) => {
-  const getDescricao = (descricao: string) => {
-    if (descricao.length > 220) {
-      return descricao.slice(0, 220) + ' (...)'
-    }
-    return descricao
-  }
+  // const getDescricao = (descricao: string) => {
+  //   if (descricao.length > 220) {
+  //     return descricao.slice(0, 220) + ' (...)'
+  //   }
+  //   return descricao
+  // }
 
   return (
-    <Card>
+    <S.Card>
       <img src={capa} alt={titulo} />
-      <Tags>
-        {destacado && <Tag>Destaques da semana</Tag>}
-        <Tag>{tipo}</Tag>
-      </Tags>
-      <CardDescription>
-        <Header>
-          <Title>{titulo}</Title>
-          <Star>
-            <Title>{avaliacao}</Title>
+      <S.Tags>
+        {destacado && <S.Tag>Destaques da semana</S.Tag>}
+        <S.Tag>{tipo}</S.Tag>
+      </S.Tags>
+      <S.CardDescription>
+        <S.Header>
+          <S.Title>{titulo}</S.Title>
+          <S.Star>
+            <S.Title>{avaliacao}</S.Title>
             <img src={star} alt="Estrela" />
-          </Star>
-        </Header>
-        <Description>{getDescricao(descricao)}</Description>
-        <More to={`/restaurante/${id}`}>Saiba mais</More>
-      </CardDescription>
-    </Card>
+          </S.Star>
+        </S.Header>
+        {/* <S.Description>{getDescricao(descricao)}</S.Description> */}
+        <S.Description>{descricao}</S.Description>
+        <S.More to={`/restaurante/${id}`}>Saiba mais</S.More>
+      </S.CardDescription>
+    </S.Card>
   )
 }
 

@@ -1,13 +1,13 @@
 import { useFormik } from 'formik'
 import { useSelector, useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import InputMask from 'react-input-mask'
 
-import { close, remove } from '../../store/reducers/cart'
-import { formataPreco } from '../OptionRestaurantItem'
+import { close, remove, clear } from '../../store/reducers/cart'
 import { RootReducer } from '../../store'
 import { usePurchaseMutation } from '../../services/api'
+import { parseToBrl } from '../../utils'
 
 import { Btn, Container, Delivery, Item, OrderMessage, SideBar } from './styles'
 
@@ -20,7 +20,22 @@ const Cart = () => {
   const [checkoutPayment, setCheckoutPayment] = useState(false)
   const [checkoutOrder, setCheckoutOrder] = useState(false)
   // const [flag, setFlag] = useState('')
-  const [purchase, { data, isSuccess }] = usePurchaseMutation()
+  const [purchase, { data, isSuccess, isLoading, reset }] =
+    usePurchaseMutation()
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clear())
+      // resetSidebar()
+      // reset()
+    }
+  }, [isSuccess, dispatch])
+
+  const resetSidebar = () => {
+    setCheckoutDelivery(false)
+    setCheckoutPayment(false)
+    setCheckoutOrder(false)
+  }
 
   const form = useFormik({
     initialValues: {
@@ -73,10 +88,11 @@ const Cart = () => {
     }),
 
     onSubmit: (values) => {
-      console.log(values)
+      // console.log(values)
 
       purchase({
-        products: [{ id: 1, price: 2 }],
+        // products: [{ id: 1, price: 2 }],
+        products: items.map((item) => ({ id: item.id, price: item.preco })),
 
         delivery: {
           receiver: values.receiver,
@@ -124,7 +140,7 @@ const Cart = () => {
         <h3>
           {!checkoutPayment
             ? 'Entrega'
-            : `Pagamento - Valor a pagar ${formataPreco(
+            : `Pagamento - Valor a pagar ${parseToBrl(
                 items.reduce((acc, cv) => acc + cv.preco, 0)
               )}`}
         </h3>
@@ -142,9 +158,6 @@ const Cart = () => {
                 onBlur={form.handleBlur}
                 className={hasAnError('receiver') ? 'hasAnError' : ''}
               />
-              {/* <small className="errorMessage">
-                {hasAnErrorMessage('receiver', form.errors.receiver)}
-              </small> */}
               <label htmlFor="description">Endereço</label>
               <input
                 type="text"
@@ -209,11 +222,6 @@ const Cart = () => {
                 type="button"
                 onClick={() => {
                   form.isValid && setCheckoutPayment(true)
-                  // ? setCheckoutPayment(true)
-                  // : setFlag('errorMessage')
-                  // console.log(form)
-                  // console.log(form.touched)
-                  // console.log(form.errors)
                 }}
               >
                 Continuar com o pagamento
@@ -294,15 +302,9 @@ const Cart = () => {
               <Btn
                 className="continuePayment"
                 type="submit"
-                onClick={() => {
-                  // form.handleSubmit
-                  // setCheckoutOrder(true)
-                  // console.log(form)
-                  // console.log(form.touched)
-                  // console.log(form.errors)
-                }}
+                disabled={isLoading}
               >
-                Finalizar pagamento
+                {isLoading ? 'Finalizando...' : 'Finalizar pagamento'}
               </Btn>
               <Btn
                 type="button"
@@ -319,79 +321,99 @@ const Cart = () => {
     )
   }
 
+  const orderMessage = () => {
+    return (
+      <>
+        <h3>Pedido realizado - {data?.orderId}</h3>
+        <p>
+          Estamos felizes em informar que seu pedido já está em processo de
+          preparação e, em breve, será entregue no endereço fornecido.
+        </p>
+        <p>
+          Gostaríamos de ressaltar que nossos entregadores não estão autorizados
+          a realizar cobranças extras.
+        </p>
+        <p>
+          Lembre-se da importância de higienizar as mãos após o recebimento do
+          pedido, garantindo assim sua segurança e bem-estar durante a refeição.
+        </p>
+        <p>
+          Esperamos que desfrute de uma deliciosa e agradável experiência
+          gastronômica. Bom apetite!
+        </p>
+        <Btn
+          type="button"
+          onClick={() => {
+            dispatch(close())
+            // dispatch(clear())
+            resetSidebar()
+            reset()
+          }}
+        >
+          Concluir
+        </Btn>
+      </>
+    )
+  }
+
   return (
     <Container className={isOpen ? 'isOpen' : ''}>
       <SideBar>
-        {items.length !== 0 ? (
+        {isSuccess && data ? (
           <>
-            {!checkoutDelivery ? (
-              <>
-                {items.map((item) => (
-                  <Item key={item.id}>
-                    <img className="imgItem" src={item.foto} alt={item.nome} />
-                    <div>
-                      <h3 className="titleItem">{item.nome}</h3>
-                      <p>{formataPreco(item.preco)}</p>
-                    </div>
-                    <img
-                      className="imgLixeira"
-                      src={lixeira}
-                      alt=""
-                      onClick={() => dispatch(remove(item.id))}
-                    />
-                  </Item>
-                ))}
-                <div className="totalValue">
-                  <p>Valor total</p>
-                  <p>
-                    {formataPreco(items.reduce((acc, cv) => acc + cv.preco, 0))}
-                  </p>
-                </div>
-                <button
-                  className="continueDelivery"
-                  onClick={() => setCheckoutDelivery(true)}
-                >
-                  Continuar com a entrega
-                </button>
-              </>
-            ) : (
-              <>
-                {!checkoutOrder ? (
-                  <Delivery>{delivery()}</Delivery>
-                ) : (
-                  <OrderMessage>
-                    <h3>Pedido realizado - {data?.orderId}</h3>
-                    <p>
-                      Estamos felizes em informar que seu pedido já está em
-                      processo de preparação e, em breve, será entregue no
-                      endereço fornecido.
-                    </p>
-                    <p>
-                      Gostaríamos de ressaltar que nossos entregadores não estão
-                      autorizados a realizar cobranças extras.
-                    </p>
-                    <p>
-                      Lembre-se da importância de higienizar as mãos após o
-                      recebimento do pedido, garantindo assim sua segurança e
-                      bem-estar durante a refeição.
-                    </p>
-                    <p>
-                      Esperamos que desfrute de uma deliciosa e agradável
-                      experiência gastronômica. Bom apetite!
-                    </p>
-                    <Btn type="button" onClick={() => dispatch(close())}>
-                      Concluir
-                    </Btn>
-                  </OrderMessage>
-                )}
-              </>
-            )}
+            <OrderMessage>{orderMessage()}</OrderMessage>
           </>
         ) : (
-          <p className="emptyCart">
-            O carrinho vazio, adicione pelo menos um produto para continuar com
-            a compra
-          </p>
+          <>
+            {items.length !== 0 ? (
+              <>
+                {!checkoutDelivery ? (
+                  <>
+                    {items.map((item) => (
+                      <Item key={item.id}>
+                        <img
+                          className="imgItem"
+                          src={item.foto}
+                          alt={item.nome}
+                        />
+                        <div>
+                          <h3 className="titleItem">{item.nome}</h3>
+                          <p>{parseToBrl(item.preco)}</p>
+                        </div>
+                        <img
+                          className="imgLixeira"
+                          src={lixeira}
+                          alt=""
+                          onClick={() => dispatch(remove(item.id))}
+                        />
+                      </Item>
+                    ))}
+                    <div className="totalValue">
+                      <p>Valor total</p>
+                      <p>
+                        {parseToBrl(
+                          items.reduce((acc, cv) => acc + cv.preco, 0)
+                        )}
+                      </p>
+                    </div>
+                    <button
+                      className="continueDelivery"
+                      onClick={() => setCheckoutDelivery(true)}
+                    >
+                      Continuar com a entrega
+                    </button>
+                  </>
+                ) : (
+                  <>{!checkoutOrder && <Delivery>{delivery()}</Delivery>}</>
+                )}
+              </>
+            ) : (
+              <p className="emptyCart">
+                O carrinho vazio, adicione pelo menos um produto para continuar
+                com a compra
+              </p>
+            )}
+          </>
         )}
       </SideBar>
       <div className="overlay" onClick={() => dispatch(close())}></div>

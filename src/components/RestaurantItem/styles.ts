@@ -6,6 +6,8 @@ export const Card = styled.div`
   margin-bottom: 48px;
   position: relative;
 
+  width: 450px;
+
   > img {
     display: block;
     height: 216px;
@@ -21,6 +23,7 @@ export const CardDescription = styled.div`
   padding: 8px;
   font-size: 18px;
   color: ${colors.pink};
+  // height: 100%;
 `
 export const Header = styled.div`
   display: flex;

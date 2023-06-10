@@ -2,9 +2,13 @@ import styled from 'styled-components'
 import { breakpoints } from '../../styles'
 
 export const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  // display: grid;
+  // grid-template-columns: repeat(2, 1fr);
+  // column-gap: 80px;
+  display: flex;
+  flex-wrap: wrap;
   column-gap: 80px;
+  justify-content: center;
 
   @media (max-width: ${breakpoints.desktop}) {
     // grid-template-columns: 1fr;
@@ -13,7 +17,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: ${breakpoints.tablet}) {
-    grid-template-columns: 1fr;
+    // grid-template-columns: 1fr;
     // width: 80%;
     // margin: 0 auto;
   }

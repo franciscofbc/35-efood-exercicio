@@ -1,17 +1,10 @@
 import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootReducer } from '../../store'
-import { open, add } from '../../store/reducers/cart'
+import { useDispatch } from 'react-redux'
 
-import {
-  Card,
-  Description,
-  FotoCardapio,
-  ImgFechar,
-  Modal,
-  ModalContent,
-  Title
-} from './style'
+import { open, add } from '../../store/reducers/cart'
+import { parseToBrl } from '../../utils'
+
+import * as S from './style'
 
 import close from '../../assets/images/close.png'
 
@@ -24,20 +17,6 @@ type Props = {
   porcao: string
 }
 
-const getDescricao = (descricao: string) => {
-  if (descricao.length > 150) {
-    return descricao.slice(0, 150) + ' (...)'
-  }
-  return descricao
-}
-
-export const formataPreco = (preco = 0) => {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(preco)
-}
-
 const OptionRestaurantItem = ({
   foto,
   preco,
@@ -47,21 +26,21 @@ const OptionRestaurantItem = ({
   porcao
 }: Props) => {
   const [isVisible, setIsVisible] = useState(false)
-  const { isOpen } = useSelector((state: RootReducer) => state.cart)
   const dispatch = useDispatch()
 
   return (
     <>
-      <Card>
+      <S.Card>
         <img src={foto} alt={nome} />
-        <Title>{nome}</Title>
-        <Description>{getDescricao(descricao)}</Description>
+        <S.Title>{nome}</S.Title>
+        {/* <Description>{getDescricao(descricao)}</Description> */}
+        <S.Description>{descricao}</S.Description>
         <a onClick={() => setIsVisible(true)}>Mais detalhes</a>
-      </Card>
+      </S.Card>
       {isVisible && (
-        <Modal>
-          <ModalContent className="container">
-            <FotoCardapio src={foto} alt={nome} />
+        <S.Modal>
+          <S.ModalContent className="container">
+            <S.FotoCardapio src={foto} alt={nome} />
             <div>
               <h2>{nome}</h2>
               <p>{descricao}</p>
@@ -72,16 +51,16 @@ const OptionRestaurantItem = ({
                   dispatch(open())
                   dispatch(add({ foto, preco, id, nome, descricao, porcao }))
                 }}
-              >{`Adicionar ao carrinho - ${formataPreco(preco)}`}</a>
+              >{`Adicionar ao carrinho - ${parseToBrl(preco)}`}</a>
             </div>
-            <ImgFechar
+            <S.ImgFechar
               src={close}
               alt="Fechar"
               onClick={() => setIsVisible(false)}
             />
-          </ModalContent>
+          </S.ModalContent>
           <div className="overlay" onClick={() => setIsVisible(false)}></div>
-        </Modal>
+        </S.Modal>
       )}
     </>
   )

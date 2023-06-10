@@ -1,5 +1,4 @@
 import { Container } from './styles'
-// import Restaurant from '../../models/Restaurant'
 import RestaurantItem from '../RestaurantItem'
 import { Restaurant } from '../../pages/Restaurants'
 
