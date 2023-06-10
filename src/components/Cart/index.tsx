@@ -88,7 +88,7 @@ const Cart = () => {
         )
     }),
 
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       purchase({
         products: items.map((item) => ({ id: item.id, price: item.preco })),
 
@@ -114,6 +114,7 @@ const Cart = () => {
           }
         }
       })
+      resetForm()
     }
   })
 
@@ -135,7 +136,7 @@ const Cart = () => {
   const delivery = () => {
     return (
       <>
-        <h3>
+        <h3 className="titleSideBar">
           {!checkout.payment
             ? 'Entrega'
             : `Pagamento - Valor a pagar ${parseToBrl(getTotalPrice(items))}`}
@@ -143,93 +144,95 @@ const Cart = () => {
         <form onSubmit={form.handleSubmit}>
           {!checkout.payment ? (
             <>
-              <label htmlFor="receiver">Quem irá receber</label>
-              <input
-                autoFocus
-                type="text"
-                id="receiver"
-                name="receiver"
-                value={form.values.receiver}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                className={hasAnError('receiver') ? 'hasAnError' : ''}
-              />
-              <label htmlFor="description">Endereço</label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                value={form.values.description}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                className={hasAnError('description') ? 'hasAnError' : ''}
-              />
-              <label htmlFor="city">Cidade</label>
-              <input
-                type="text"
-                id="city"
-                name="city"
-                value={form.values.city}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                className={hasAnError('city') ? 'hasAnError' : ''}
-              />
-              <div className="sameLine">
-                <div>
-                  <label htmlFor="zipCode">CEP</label>
-                  <InputMask
-                    type="text"
-                    id="zipCode"
-                    name="zipCode"
-                    value={form.values.zipCode}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={hasAnError('zipCode') ? 'hasAnError' : ''}
-                    mask="99999-999"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="number">Número</label>
-                  <input
-                    type="text"
-                    id="number"
-                    name="number"
-                    value={form.values.number}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={hasAnError('number') ? 'hasAnError' : ''}
-                  />
-                  {/* <small className={flag}>
+              <div className="deliveryDiv">
+                <label htmlFor="receiver">Quem irá receber</label>
+                <input
+                  autoFocus
+                  type="text"
+                  id="receiver"
+                  name="receiver"
+                  value={form.values.receiver}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
+                  className={hasAnError('receiver') ? 'hasAnError' : ''}
+                />
+                <label htmlFor="description">Endereço</label>
+                <input
+                  type="text"
+                  id="description"
+                  name="description"
+                  value={form.values.description}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
+                  className={hasAnError('description') ? 'hasAnError' : ''}
+                />
+                <label htmlFor="city">Cidade</label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  value={form.values.city}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
+                  className={hasAnError('city') ? 'hasAnError' : ''}
+                />
+                <div className="sameLine">
+                  <div>
+                    <label htmlFor="zipCode">CEP</label>
+                    <InputMask
+                      type="text"
+                      id="zipCode"
+                      name="zipCode"
+                      value={form.values.zipCode}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                      className={hasAnError('zipCode') ? 'hasAnError' : ''}
+                      mask="99999-999"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="number">Número</label>
+                    <input
+                      type="text"
+                      id="number"
+                      name="number"
+                      value={form.values.number}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                      className={hasAnError('number') ? 'hasAnError' : ''}
+                    />
+                    {/* <small className={flag}>
                     {hasAnErrorMessage('number', form.errors.number)}
                   </small> */}
+                  </div>
                 </div>
+                <label htmlFor="complement">Complemente (Opcional)</label>
+                <input
+                  type="text"
+                  id="complement"
+                  name="complement"
+                  value={form.values.complement}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
+                />
+                <Btn
+                  className="continueButton"
+                  type="button"
+                  onClick={() => {
+                    form.isValid && setCheckout({ ...checkout, payment: true })
+                  }}
+                >
+                  Continuar com o pagamento
+                </Btn>
+                <Btn
+                  type="button"
+                  onClick={() => {
+                    setCheckout({ ...checkout, delivery: false })
+                  }}
+                >
+                  Voltar para o carrinho
+                </Btn>
               </div>
-              <label htmlFor="complement">Complemente (Opcional)</label>
-              <input
-                type="text"
-                id="complement"
-                name="complement"
-                value={form.values.complement}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-              />
-              <Btn
-                className="continuePayment"
-                type="button"
-                onClick={() => {
-                  form.isValid && setCheckout({ ...checkout, payment: true })
-                }}
-              >
-                Continuar com o pagamento
-              </Btn>
-              <Btn
-                type="button"
-                onClick={() => {
-                  setCheckout({ ...checkout, delivery: false })
-                }}
-              >
-                Voltar para o carrinho
-              </Btn>
             </>
           ) : (
             <>
@@ -301,7 +304,7 @@ const Cart = () => {
                 </div>
               </div>
               <Btn
-                className="continuePayment"
+                className="continueButton"
                 type="submit"
                 disabled={isLoading}
               >
@@ -325,20 +328,22 @@ const Cart = () => {
   const orderMessage = () => {
     return (
       <>
-        <h3>Pedido realizado - {data?.orderId}</h3>
-        <p>
+        <h3 className="titleOrderMessage">
+          Pedido realizado - {data?.orderId}
+        </h3>
+        <p className="textOrderMessage">
           Estamos felizes em informar que seu pedido já está em processo de
           preparação e, em breve, será entregue no endereço fornecido.
         </p>
-        <p>
+        <p className="textOrderMessage">
           Gostaríamos de ressaltar que nossos entregadores não estão autorizados
           a realizar cobranças extras.
         </p>
-        <p>
+        <p className="textOrderMessage">
           Lembre-se da importância de higienizar as mãos após o recebimento do
           pedido, garantindo assim sua segurança e bem-estar durante a refeição.
         </p>
-        <p>
+        <p className="textOrderMessage">
           Esperamos que desfrute de uma deliciosa e agradável experiência
           gastronômica. Bom apetite!
         </p>
@@ -369,31 +374,37 @@ const Cart = () => {
               <>
                 {!checkout.delivery ? (
                   <>
-                    {items.map((item) => (
-                      <Item key={item.id}>
-                        <img
-                          className="imgItem"
-                          src={item.foto}
-                          alt={item.nome}
-                        />
-                        <div>
-                          <h3 className="titleItem">{item.nome}</h3>
-                          <p>{parseToBrl(item.preco)}</p>
-                        </div>
-                        <img
-                          className="imgLixeira"
-                          src={lixeira}
-                          alt=""
-                          onClick={() => dispatch(remove(item.id))}
-                        />
-                      </Item>
-                    ))}
+                    <Item>
+                      {items.map((item) => (
+                        <li className="individualItem" key={item.id}>
+                          <img
+                            className="imgItem"
+                            src={item.foto}
+                            alt={item.nome}
+                          />
+                          <div>
+                            <h3 className="titleItem">{item.nome}</h3>
+                            <p className="priceIndividualItem">
+                              {parseToBrl(item.preco)}
+                            </p>
+                          </div>
+                          <img
+                            className="imgLixeira"
+                            src={lixeira}
+                            alt=""
+                            onClick={() => dispatch(remove(item.id))}
+                          />
+                        </li>
+                      ))}
+                    </Item>
                     <div className="totalValue">
-                      <p>Valor total</p>
-                      <p>{parseToBrl(getTotalPrice(items))}</p>
+                      <p className="totalValuePrice">Valor total</p>
+                      <p className="totalValuePrice">
+                        {parseToBrl(getTotalPrice(items))}
+                      </p>
                     </div>
                     <button
-                      className="continueDelivery"
+                      className="continueDeliveryButton"
                       onClick={() => {
                         setCheckout({ ...checkout, delivery: true })
                       }}
@@ -406,7 +417,7 @@ const Cart = () => {
                 )}
               </>
             ) : (
-              <p className="emptyCart">
+              <p className="emptyCartMessage">
                 O carrinho vazio, adicione pelo menos um produto para continuar
                 com a compra
               </p>

@@ -3,6 +3,7 @@ import { colors } from '../../styles'
 
 export const Container = styled.div`
   display: none;
+
   &.isOpen {
     display: flex;
   }
@@ -39,21 +40,21 @@ export const SideBar = styled.aside`
     justify-content: space-between;
     margin: 24px 8px 16px 8px;
 
-    p {
+    .totalValuePrice {
       color: ${colors.pinkFooter};
       font-weight: 700;
       font-size: 14px;
     }
   }
 
-  .emptyCart {
+  .emptyCartMessage {
     text-align: center;
     color: ${colors.pinkFooter};
     font-weight: 700;
     font-size: 14px;
   }
 
-  .continueDelivery {
+  .continueDeliveryButton {
     background-color: ${colors.pinkFooter};
     color: ${colors.pink};
     border: none;
@@ -65,12 +66,14 @@ export const SideBar = styled.aside`
   }
 `
 
-export const Item = styled.div`
-  display: flex;
-  padding: 8px;
-  background-color: ${colors.pinkFooter};
-  margin: 0 8px 16px 8px;
-  position: relative;
+export const Item = styled.ul`
+  .individualItem {
+    display: flex;
+    padding: 8px;
+    background-color: ${colors.pinkFooter};
+    margin: 0 8px 16px 8px;
+    position: relative;
+  }
 
   .imgItem {
     height: 80px;
@@ -85,7 +88,7 @@ export const Item = styled.div`
     color: ${colors.pink};
   }
 
-  p {
+  .priceIndividualItem {
     font-size: 14px;
     font-weight: 400;
     color: ${colors.pink};
@@ -101,7 +104,7 @@ export const Item = styled.div`
 export const Delivery = styled.div`
   padding: 0 8px;
 
-  > h3 {
+  .titleSideBar {
     margin: 32px 0 16px 0;
     font-size: 16px;
     font-weight: 700;
@@ -113,49 +116,37 @@ export const Delivery = styled.div`
       border: red solid 2px;
     }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      color: ${colors.pinkFooter};
-    }
-
-    input {
-      width: 100%;
-      height: 32px;
-      backgroud-color: ${colors.pinkFooter};
-      margin-bottom: 8px;
-      padding: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      color: ${colors.inputColor};
-    }
-
-    .sameLine {
-      display: flex;
-
-      #zipCode {
-        width: 155px;
-        margin-right: 34px;
+    .deliveryDiv {
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: ${colors.pinkFooter};
       }
 
-      #cardNumber {
-        width: 228px;
-        margin-right: 30px;
+      input {
+        width: 100%;
+        height: 32px;
+        backgroud-color: ${colors.pinkFooter};
+        margin-bottom: 8px;
+        padding: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: ${colors.inputColor};
       }
 
-      #cardCode {
-        width: 87px;
-      }
+      .sameLine {
+        display: flex;
 
-      #expiresMonth {
-        width: 155px;
-        margin-right: 34px;
+        #zipCode {
+          width: 155px;
+          margin-right: 34px;
+        }
       }
     }
 
-    .continuePayment {
+    .continueButton {
       margin: 16px 0 8px 0;
     }
   }
@@ -176,11 +167,11 @@ export const OrderMessage = styled.div`
   padding: 8px;
   color: ${colors.pinkFooter};
 
-  > h3 {
+  .titleOrderMessage {
     margin-bottom: 16px;
   }
 
-  > p {
+  .textOrderMessage {
     line-height: 22px;
     margin-bottom: 28px;
   }
