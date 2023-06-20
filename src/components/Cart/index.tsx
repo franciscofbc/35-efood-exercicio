@@ -236,88 +236,89 @@ const Cart = () => {
             </>
           ) : (
             <>
-              <label htmlFor="cardName">Nome no cartão</label>
-              <input
-                // autoFocus
-                type="text"
-                id="cardName"
-                name="cardName"
-                value={form.values.cardName}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                className={hasAnError('cardName') ? 'hasAnError' : ''}
-              />
-              <div className="sameLine">
-                <div>
-                  <label htmlFor="cardNumber">Número do cartão</label>
-                  <InputMask
-                    type="text"
-                    id="cardNumber"
-                    name="cardNumber"
-                    value={form.values.cardNumber}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={hasAnError('cardNumber') ? 'hasAnError' : ''}
-                    mask="9999 9999 9999 9999"
-                  />
+              <div className="paymentDiv">
+                <label htmlFor="cardName">Nome no cartão</label>
+                <input
+                  type="text"
+                  id="cardName"
+                  name="cardName"
+                  value={form.values.cardName}
+                  onChange={form.handleChange}
+                  onBlur={form.handleBlur}
+                  className={hasAnError('cardName') ? 'hasAnError' : ''}
+                />
+                <div className="sameLine">
+                  <div>
+                    <label htmlFor="cardNumber">Número do cartão</label>
+                    <InputMask
+                      type="text"
+                      id="cardNumber"
+                      name="cardNumber"
+                      value={form.values.cardNumber}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                      className={hasAnError('cardNumber') ? 'hasAnError' : ''}
+                      mask="9999 9999 9999 9999"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="cardCode">CVV</label>
+                    <InputMask
+                      type="text"
+                      id="cardCode"
+                      name="cardCode"
+                      value={form.values.cardCode}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                      className={hasAnError('cardCode') ? 'hasAnError' : ''}
+                      mask="999"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="cardCode">CVV</label>
-                  <InputMask
-                    type="text"
-                    id="cardCode"
-                    name="cardCode"
-                    value={form.values.cardCode}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={hasAnError('cardCode') ? 'hasAnError' : ''}
-                    mask="999"
-                  />
+                <div className="sameLine">
+                  <div>
+                    <label htmlFor="expiresMonth">Mês de vencimento</label>
+                    <InputMask
+                      type="text"
+                      id="expiresMonth"
+                      name="expiresMonth"
+                      value={form.values.expiresMonth}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                      className={hasAnError('expiresMonth') ? 'hasAnError' : ''}
+                      mask="99"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="expiresYear">Ano de vencimento</label>
+                    <InputMask
+                      type="text"
+                      id="expiresYear"
+                      name="expiresYear"
+                      value={form.values.expiresYear}
+                      onChange={form.handleChange}
+                      onBlur={form.handleBlur}
+                      className={hasAnError('expiresYear') ? 'hasAnError' : ''}
+                      mask="99"
+                    />
+                  </div>
                 </div>
+                <Btn
+                  className="continueButton"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Finalizando...' : 'Finalizar pagamento'}
+                </Btn>
+                <Btn
+                  type="button"
+                  onClick={() => {
+                    setCheckout({ ...checkout, payment: false })
+                  }}
+                >
+                  Voltar para a edição de endereço
+                </Btn>
               </div>
-              <div className="sameLine">
-                <div>
-                  <label htmlFor="expiresMonth">Mês de vencimento</label>
-                  <InputMask
-                    type="text"
-                    id="expiresMonth"
-                    name="expiresMonth"
-                    value={form.values.expiresMonth}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={hasAnError('expiresMonth') ? 'hasAnError' : ''}
-                    mask="99"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="expiresYear">Ano de vencimento</label>
-                  <InputMask
-                    type="text"
-                    id="expiresYear"
-                    name="expiresYear"
-                    value={form.values.expiresYear}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
-                    className={hasAnError('expiresYear') ? 'hasAnError' : ''}
-                    mask="99"
-                  />
-                </div>
-              </div>
-              <Btn
-                className="continueButton"
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Finalizando...' : 'Finalizar pagamento'}
-              </Btn>
-              <Btn
-                type="button"
-                onClick={() => {
-                  setCheckout({ ...checkout, payment: false })
-                }}
-              >
-                Voltar para a edição de endereço
-              </Btn>
             </>
           )}
         </form>

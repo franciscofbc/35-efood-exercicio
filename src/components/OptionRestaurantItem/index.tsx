@@ -42,10 +42,11 @@ const OptionRestaurantItem = ({
           <S.ModalContent className="container">
             <S.FotoCardapio src={foto} alt={nome} />
             <div>
-              <h2>{nome}</h2>
-              <p>{descricao}</p>
-              <p>{`Serve: de ${porcao}`}</p>
+              <h2 className="descriptionTitle">{nome}</h2>
+              <p className="descriptionText">{descricao}</p>
+              <p className="descriptionText">{`Serve: de ${porcao}`}</p>
               <a
+                className="addCart"
                 onClick={() => {
                   setIsVisible(false)
                   dispatch(open())

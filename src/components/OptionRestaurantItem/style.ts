@@ -12,7 +12,6 @@ export const Card = styled.div`
     color: ${colors.pink};
     background-color: ${colors.pinkFooter};
     text-decoration: none;
-    // display: block;
     text-align: center;
     padding: 4px;
     font-size: 14px;
@@ -44,7 +43,6 @@ export const Description = styled.p`
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
-  // margin-bottom: 8px;
   margin-bottom: 32px;
 `
 
@@ -69,28 +67,24 @@ export const Modal = styled.div`
 
 export const ModalContent = styled.div`
   display: flex;
-  // align-items: center;
   padding: 32px;
   background-color: ${colors.pink};
   position: relative; //por causa da ImgFechar
   z-index: 1;
 
-  @media (max-width: ${breakpoints.desktop}) {
-    // width: 80%;
-  }
-
   @media (max-width: ${breakpoints.tablet}) {
     display: block;
+    width: 340px;
   }
 
-  h2 {
+  .descriptionTitle {
     color: ${colors.pinkFooter};
     font-weight: 900;
     font-size: 18px;
     margin-bottom: 16px;
   }
 
-  p {
+  .descriptionText {
     color: ${colors.pinkFooter};
     font-weight: 400;
     font-size: 14px;
@@ -98,11 +92,10 @@ export const ModalContent = styled.div`
     line-height: 24px;
   }
 
-  a {
+  .addCart {
     color: ${colors.pink};
     background-color: ${colors.pinkFooter};
     text-decoration: none;
-    // display: block;
     text-align: center;
     padding: 4px 8px; //mudou
     font-size: 14px;
@@ -123,7 +116,6 @@ export const ImgFechar = styled.img`
   right: 8px;
 
   @media (max-width: ${breakpoints.tablet}) {
-    // top: 16px;
-    // right: 16px;
+    margin-right: 16px;
   }
 `

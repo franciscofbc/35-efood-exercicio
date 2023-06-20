@@ -146,6 +146,41 @@ export const Delivery = styled.div`
       }
     }
 
+    .paymentDiv {
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: ${colors.pinkFooter};
+      }
+
+      input {
+        width: 100%;
+        height: 32px;
+        backgroud-color: ${colors.pinkFooter};
+        margin-bottom: 8px;
+        padding: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: ${colors.inputColor};
+      }
+
+      .sameLine {
+        display: flex;
+
+        #expiresMonth {
+          width: 155px;
+          margin-right: 34px;
+        }
+
+        #cardNumber {
+          width: 228px;
+          margin-right: 30px;
+        }
+      }
+    }
+
     .continueButton {
       margin: 16px 0 8px 0;
     }
